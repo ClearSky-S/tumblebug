@@ -28,16 +28,17 @@ def save():
     wb_output.save(f'output/{filename}')
 
 # input 엑셀 파일의 셀에서 값을 읽어서 반환
-def read(sheetname: str, row: int, column: int):
+def read(sheetname: str, row: int, column: str):
     global wb_input, wb_output, isInitialized
     if not isInitialized:
         print('Error: excel.init()을 먼저 호출해주세요.')
         exit()
     ws = wb_input[sheetname]
-    return ws.cell(row, column).value
+    write(sheetname, row, column, ws[column + str(row)].value)
+    return ws[column + str(row)].value
 
 # output 엑셀 파일의 셀에 값을 씀
-def write(sheetname: str, row: int, column: int, value: str):
+def write(sheetname: str, row: int, column: str, value: str):
     global wb_input, wb_output, isInitialized
     if not isInitialized:
         print('Error: excel.init()을 먼저 호출해주세요.')
@@ -46,15 +47,4 @@ def write(sheetname: str, row: int, column: int, value: str):
         ws = wb_output[sheetname]
     else:
         ws = wb_output.create_sheet(sheetname)
-    ws.cell(row, column, value)
-
-
-# test code
-if __name__ == '__main__':
-    init('test.xlsx')
-    r = read('Sheet', 1, 1)
-    print(r)
-    write('Sheet', 1, 1, str(r) +'t')
-    save()
-
-
+    ws[column + str(row)] = value
