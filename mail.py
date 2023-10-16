@@ -43,6 +43,7 @@ def sendEmail(addr: str, title: str, message: str):
     #     msg.attach(img)
     
     # 받는 메일 유효성 검사 거친 후 메일 전송
+    print(f'메일 전송: {addr}')
     reg = "^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$"  # 유효성 검사를 위한 정규표현식
     if re.match(reg, addr):
         smtp.sendmail(my_account, to_mail, msg.as_string())
